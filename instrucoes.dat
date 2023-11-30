@@ -1,0 +1,185 @@
+001_11_000     //move a0 zero  	# a0 = 0
+
+000_11_011     //add a0 3		# Atribui o valor 3 ao registrador r0
+
+001_00_001     //move t2 r0    	# Copia o valor 3 para t2
+
+000_00_010     //add t2 2		# Registrador r0 recebe 3 + 0 + 1 = 5 (Endereço de 'tamanho')
+
+001_10_001     //move t4 r0    	# Copia o endereço de 'tamanho' para t4
+
+// t4 está apontando para o endereço da variável 'tamanho' na memória
+
+110_10_100     //lw t2 t4		# Carrega o índice i em t2
+
+// if (i==0) saia do loop 
+
+001_11_000     //move a0 zero	# a0 = 0
+
+000_10_101     //add t4 -1     	# Atribui o valor 5-1=4 (endereço de labels[4]) ao registrador r0
+
+001_01_001     //move t3 r0    	# t3 recebe o endereço de labels[4]
+
+// t3 está apontando para labels[4] na memória
+
+110_01_111    //lw a0 t3		# Carrega o endereço do label 'exitExt' em a0
+
+011_00_000    //beq t2 zero   	# Se i == 0, salte para 'exitExt' (contido em a0)
+ 
+// Decrementando o índice i para a próxima iteração
+
+001_11_000     //move a0 zero  	# a0 = 0
+
+000_00_101     //add t2 -1     	# Decrementa 1 ao índice i e salva em r0 (r0 = 0 + i - 1)
+
+001_00_001     //move t2 r0    	# Copia o valor i-1 para t2
+ 
+101_10_100     //sw t2 t4      	# Grava o valor i-1 no endereço da variável 'tamanho' (apontado por t4)
+ 
+001_01_000     //move t3 zero  	# Inicializa o índice j (t3) com 0
+ 
+//forInterno:
+// if (j<i-1)
+
+001_11_000     //move a0 zero  	# a0 = 0
+
+000_11_011     //add a0 3      	# Atribui o valor 3 ao registrador r0
+
+001_00_001     //move t2 r0    	# Copia o valor 3 para t2
+
+000_00_010     //add t2 2      	# Registrador r0 recebe 3 + 0 + 1 = 5 (Endereço de 'tamanho')
+
+001_10_001     //move t4 r0    	# Copia o endereço de 'tamanho' para t4
+
+// t4 está apontando para o endereço da variável 'tamanho' na memória
+
+011_10_100     //lw t2 t4      	# Carrega o índice i-1 em t2
+ 
+010_01_010     //slt t3 t2     	# r0 recebe 0 se o índice j (t3) for menor que i-1 (t2)
+
+001_10_001     //move t4 r0    	# t4 = r0
+ 
+001_11_000     //move a0 zero  	# a0 = 0
+
+000_11_011     //add a0 3      	# Atribui o valor 3 (endereço de labels[3]) ao registrador r0
+
+001_00_001     //move t2 r0    	# t2 recebe o endereço de labels[3]
+
+// t2 está apontando para labels[3] na memória
+
+110_00_111     //lw a0 t2      	# Carrega o endereço do label 'exitInt' em a0
+ 
+011_10_000     //beq t4 zero   	# Se j<i-1 for falso, salte para 'exitInt' (contido em a0)
+
+// if (vetor[j] < vetor[j+1])
+
+001_11_000     //move a0 zero  	# a0 = 0
+
+000_11_011     //add a0 3      	# r0 recebe 3
+
+001_11_001     //move a0 r0    	# Copia o valor 3 para a0
+
+000_11_000     //add a0 0      	# r0 recebe 3+3=6 (endereço de vetor[0])
+
+001_11_001     //move a0 r0    	# Copia o endereço de vetor[0] para a0
+
+000_01_000     //add t3 0      	# r0 = (endereço de vetor[0] + j)
+
+001_10_001     //move t4 r0    	# t4 recebe o endereço de vetor[j]
+
+011_10_011     //lw t1 t4      	# Carrega o conteúdo de vetor[j] em t1
+ 
+001_11_001     //move a0 r0    	# a0 = endereço de vetor[j]
+
+001_10_000     //move t4 zero  	# Atribui 0 à variável t4
+
+000_10_001     //add t4 1      	# r0 = 0 + a0 + 1 (aponta para vetor[j+1])
+
+001_10_001     //move t4 r0    	# t4 recebe o endereço de vetor[j+1]
+
+011_10_100     //lw t2 t4      	# Carrega o conteúdo de vetor[j+1] em t2        	
+ 
+001_11_000     //move a0 zero  	# a0 = 0
+
+000_11_010     //add a0 2      	# r0 recebe 2 (Endereço de labels[2])
+
+001_10_001     //move t4 r0    	# Copia o endereço de labels[2] para t4
+
+// t4 está apontando para labels[2] na memória
+
+110_10_111     //lw a0 t4      	# Carrega o endereço do label 'next' em a0
+ 
+010_00_001     //slt t2 t1     	# Testa se vetor[j+1] < vetor[j]
+
+001_10_001     //move t4 r0    	# Copia o resultado para t4
+ 
+011_10_000     //beq t4 zero   	# Se vetor[j+1] < vetor[j] for falso, então salte para 'next' (contido em a0)
+ 
+// Trocando vetor[j] ⟷ vetor[j+1] 
+
+001_11_000     //move a0 zero  	# a0 = 0
+
+000_11_011     //add a0 3      	# r0 recebe 3
+
+001_10_001     //move a0 r0    	# Copia o valor 3 para a0
+
+000_11_000     //add a0 0      	# r0 recebe 3+3=6 (endereço de vetor[0])
+
+001_11_001     //move a0 r0    	# Copia o endereço do vetor[0] para a0
+
+000_01_000     //add t3 0      	# r0 = (endereço de vetor[0] + j)
+
+001_10_001     //move t4 r0    	# t4 recebe o endereço de vetor[j]
+
+101_00_110     //sw t2 t4      	# Grava o valor vetor[j+1] no endereço de vetor[j]
+ 
+001_11_000     //move a0 zero  	# a0 = 0
+
+000_10_001     //add t4 1      	# r0 = 0 + t4 + 1 (aponta para vetor[j+1])
+
+001_10_001     //move t4 r0    	# t4 recebe endereço de vetor[j+1]
+
+101_10_011     //sw t1 t4      	# Grava o valor vetor[j] no endereço de vetor[j+1]
+ 
+// next:
+// Incrementando o índice j
+
+001_11_000     //move a0 zero  	#a0 = 0
+
+001_01_001     //add t3 1      	# Incrementa 1 ao índice j (r0 = t3 + 0 + 1)
+
+001_01_001     //move t3 r0    	# Atribui o resultado a j (t3 = r0)
+
+000_11_001     //add a0 1      	# Atribui o valor 1 (endereço de labels[1]) em r0
+
+001_00_001     //move t2 r0    	# t2 recebe o endereço de labels[1]
+
+// t2 está apontando para labels[1] na memória
+
+110_00_110     //lw t4 t2      	# Carrega o endereço do label 'forInterno' em t4
+
+100_00_110     //jump t4       	# Retorna para label 'forInterno'
+ 
+// exitInt:
+// Saindo  do loop interno
+
+001_11_000     //move a0 zero # a0 = 0
+
+//a0 está apontando para labels[0] na memória
+
+100_00_111     //jump a0 # Retorna para o label 'forExterno'
+
+// exitExt:
+// Encerramento
+
+111_00000     //halt	      	# Pausa o programa
+
+
+
+
+
+
+
+
+
+
