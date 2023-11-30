@@ -1,0 +1,40 @@
+// ===== Array com os labels (fixo) =====
+// labels[5]
+
+    // Esses números correspondem ao índice da instrução associada ao respectivo label
+    // (vide código do nRisc em 'AULA 6:  PROJETO DE UM PROCESSADOR')
+
+00000000    // 0 Endereço do label 'forExterno'
+
+00010000    // 16 Endereço do label 'forInterno'
+
+00111101    // 61 Endereço do label 'next'
+
+01000100    // 68 Endereço do label 'exitInt'
+
+01000110    // 70 Endereço do label 'exitExt'
+
+
+// ===== Tamanho do vetor (modificável) =====
+
+00000110    // 6
+
+
+// ===== Array a ser ordenada (modificável) =====
+// vetor[tamanho]
+
+    //  Obs.: Somente números representáveis em 8 bits
+
+01111110    //  126  ->   vetor[0]
+
+00101111    //  47   ->   vetor[1]
+
+01011101    //  93   ->   vetor[2]
+
+00000010    //  2    ->   vetor[3]
+
+01011011    //  91   ->   vetor[4]
+
+00001100    //  12   ->   vetor[5]
+
+
