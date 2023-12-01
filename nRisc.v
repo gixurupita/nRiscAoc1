@@ -14,7 +14,7 @@
 module nRisc;
     reg [3:0] RegLido1, RegLido2, RegEscrito;
     reg [7:0] DadoEscrito, DadoLido1, DadoLido2, Dadoa0;
-    reg clock, EscReg;
+    reg Clock, EscReg;
     
     // Instância do módulo BancoRegistradores
     BancoRegistradores BancoInst(
@@ -25,7 +25,7 @@ module nRisc;
         .DadoLido1(DadoLido1),
         .DadoLido2(DadoLido2),
         .Dadoa0(Dadoa0),
-        .clock(clock),
+        .Clock(Clock),
         .EscReg(EscReg)
     );
 

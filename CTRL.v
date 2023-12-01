@@ -1,4 +1,4 @@
-module CTRL(OPcode, clock,
+module CTRL(OPcode, Clock,
 MemToReg, 
 EscMem, 
 LerMem,
@@ -12,11 +12,11 @@ moveReg,
 RegDest);
 
 input wire [2:0] OPcode;
-input clock;
+input Clock;
 output reg MemToReg, EscMem, LerMem, Branch, ULAFonte, EscReg, Jump, EscPc, moveReg, RegDest;
 output reg[1:0] ULAOp;
 
-always @ (posedge clock) begin
+always @ (posedge Clock) begin
 casez(OPcode)
 
 3'b000: begin //add

@@ -1,7 +1,7 @@
-module BancoRegistradores(RegLido1, RegLido2, RegEscrito, DadoEscrito, EscReg, DadoLido1, DadoLido2, Dadoa0, clock);
+module BancoRegistradores(RegLido1, RegLido2, RegEscrito, DadoEscrito, EscReg, DadoLido1, DadoLido2, Dadoa0, Clock);
     input [3:0] RegLido1, RegLido2, RegEscrito;    //Número dos registradores
     input [7:0] DadoEscrito;   //Valor de 8 bits a ser escrito
-    input clock, EscReg;    //Sinal de controle e Clock
+    input Clock, EscReg;    //Sinal de controle e Clock
     output [7:0] DadoLido1, DadoLido2;    //Valores lidos dos Registradores
 
     reg [7:0] REG [7:0];    //8 Registradores, cada um de 8 bits
@@ -11,14 +11,14 @@ module BancoRegistradores(RegLido1, RegLido2, RegEscrito, DadoEscrito, EscReg, D
     assign DadoLido2 = REG[RegLido2];
     assign Dadoa0 = REG[7];     //Saída dedicada do registrador a0
 
-    always @(posedge clock)
+    always @(posedge Clock)
     begin  //Grava o dado no banco caso o sinal EscReg for 1
         if (EscReg) REG[RegEscrito] <= DadoEscrito;
     end
 endmodule
 
 
-module CTRL(OPcode, clock,
+module CTRL(OPcode, Clock,
 MemToReg, 
 EscMem, 
 LerMem,
@@ -32,11 +32,11 @@ moveReg,
 RegDest);
 
 input wire [2:0] OPcode;
-input clock;
+input Clock;
 output reg MemToReg, EscMem, LerMem, Branch, ULAFonte, EscReg, Jump, EscPc, moveReg, RegDest;
 output reg[1:0] ULAOp;
 
-always @ (posedge clock) begin
+always @ (posedge Clock) begin
 casez(OPcode)
 
 3'b000: begin //add
@@ -250,21 +250,21 @@ module PortaAnd(
     end
 endmodule
 
-module ProgramCouter (Endereco, EscPC, Saida, clock);
-    input wire EscPC, clock;
+module ProgramCouter (Endereco, EscPC, Saida, Clock);
+    input wire EscPC, Clock;
     input wire [7:0] Endereco;
     output reg [7:0] Saida;
     
     reg[7:0] MemoriaPC;
 
-    always @(posedge clock)
+    always @(posedge Clock)
     begin
-        //Grava o endereço da entrada na subida do clock
+        //Grava o endereço da entrada na subida do Clock
         if(EscPC) MemoriaPC = Endereco;
     end
-    always @(negedge clock)
+    always @(negedge Clock)
     begin
-        //Atribui o endereço à saída na descida do clock
+        //Atribui o endereço à saída na descida do Clock
         Saida = MemoriaPC;
     end
 endmodule
@@ -288,7 +288,7 @@ endmodule
 `include "Mux4Para1.v"
 `include "PortaAnd.v"
 `include "ProgramCouter.v"
-`include "ULAAOC.v"
+`include "ULA.v"
 `include "Ext.v"
 `include "Mux2Para1.v"
 
@@ -296,7 +296,7 @@ endmodule
 module nRisc;
     reg [3:0] RegLido1, RegLido2, RegEscrito;
     reg [7:0] DadoEscrito, DadoLido1, DadoLido2, Dadoa0;
-    reg clock, EscReg;
+    reg Clock, EscReg;
     
     // Instância do módulo BancoRegistradores
     BancoRegistradores BancoInst(
@@ -307,14 +307,14 @@ module nRisc;
         .DadoLido1(DadoLido1),
         .DadoLido2(DadoLido2),
         .Dadoa0(Dadoa0),
-        .clock(clock),
+        .Clock(Clock),
         .EscReg(EscReg)
     );
 
     // Instância do módulo CTRL
     CTRL CtrlInst(
         .OPcode(OPcode),
-        .clock(clock),
+        .Clock(Clock),
         .MemToReg(MemToReg),
         .EscMem(EscMem),
         .LerMem(LerMem),
@@ -371,11 +371,11 @@ module nRisc;
         .Endereco(Endereco),
         .EscPC(EscPC),
         .Saida(Saida),
-        .clock(clock)
+        .Clock(Clock)
     );
     
-    // Instância do módulo ULAAOC
-    ULAAOC ULAInst(
+    // Instância do módulo ULA
+    ULA ULAInst(
         .ULAOp(ULAOp),
         .dado1(DadoLido1),  // Alterei para DadoLido1 para conectar com os registradores
         .dado2(DadoLido2),  // Alterei para DadoLido2 para conectar com os registradores

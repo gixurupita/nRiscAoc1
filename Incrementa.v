@@ -1,9 +1,9 @@
 module Incrementa(
-   input [7:0] num1,
-   input signed [7:0] num2,
-   output reg [7:0] resultado
+   input [7:0] Num1,
+   input signed [7:0] Num2,
+   output reg [7:0] SaidaIncrementa
 );
     always@(*) 
-        resultado = num1 + num2;
+        SaidaIncrementa = Num1 + Num2;
 
 endmodule

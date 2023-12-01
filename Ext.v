@@ -1,13 +1,13 @@
 module Ext(
-   input signed [2:0] entrada,
-   output reg [7:0] saida 
+   input signed [2:0] Entrada,
+   output reg [7:0] Saida 
 );
 
-   always @(entrada) begin
-      if (entrada[2] == 1) // Número negativo
-         saida = {5'b11111, entrada};
+   always @(Entrada) begin
+      if (Entrada[2] == 1) // Número negativo
+         Saida = {5'b11111, Entrada};
       else // Número positivo
-         saida = {5'b00000, entrada};
+         Saida = {5'b00000, Entrada};
    end
 
 //iverilog -o Ext.vvp Ext.v

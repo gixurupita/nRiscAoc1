@@ -1,14 +1,14 @@
-module Mux4Para1 (porta1, porta2, porta3, porta4, selecao, saida);
-    input wire [7:0] porta1, porta2, porta3, porta4; 
-    input wire [1:0] selecao;
-    output reg [7:0] saida;
+module Mux4Para1 (Porta1, Porta2, Porta3, Porta4, Selecao, SaidaMUX4);
+    input wire [7:0] Porta1, Porta2, Porta3, Porta4; 
+    input wire [1:0] Selecao;
+    output reg [7:0] SaidaMUX4;
     
     always @(*) begin
-        case (selecao)
-            2'b00: saida = porta1;
-            2'b01: saida = porta2;
-            2'b10: saida = porta3;
-            2'b11: saida = porta4;
+        case (Selecao)
+            2'b00: SaidaMUX4 = Porta1;
+            2'b01: SaidaMUX4 = Porta2;
+            2'b10: SaidaMUX4 = Porta3;
+            2'b11: SaidaMUX4 = Porta4;
         endcase
     end
 endmodule

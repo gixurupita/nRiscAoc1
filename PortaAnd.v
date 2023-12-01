@@ -1,10 +1,10 @@
 module PortaAnd(
     input wire Zero,
     input wire Branch,
-    output reg resultado);
+    output reg SaidaAND);
 
     always @(*) 
     begin
-        resultado = Zero && Branch;
+        SaidaAND = Zero && Branch;
     end
 endmodule

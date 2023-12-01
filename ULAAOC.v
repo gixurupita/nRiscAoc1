@@ -1,43 +1,44 @@
-module ULAAOC(ULAOp,dado1, dado2,zero, resultado) ;
+module ULAAOC(ULAOp, Dado1, Dado2, Zero, SaidaULA) ;
 input wire signed [1:0] ULAOp;
-input wire signed [7:0] dado1,dado2;
-output reg zero;
-output reg [7:0] resultado;
+input wire signed [7:0] Dado1,Dado2;
+output reg Zero;
+output reg [7:0] SaidaULA;
 
-//definido a partir do documento do roteiro 9 
+//definido a partir do documento do roteiro 9
 
-  always @(*)
+always @(*)
     begin
-      case (ULAOp)
+        case (ULAOp)
         2'b00: begin // soma
-          resultado = dado2 + dado1;
-          zero = 1'b0;
+            SaidaULA = Dado2 + Dado1;
+            Zero = 1'b0;
         end
 
         2'b01: begin //subtracao
-          resultado = dado1 - dado2;
-          if (resultado == 8'b00000000)
-          zero = 1'b1;
-          else
-          zero = 1'b0;
+            SaidaULA = Dado1 - Dado2;
+            if (SaidaULA == 8'b00000000)
+                Zero = 1'b1;
+            else
+                Zero = 1'b0;
         end
 
         2'b10: begin //set on less than
-          if (dado1 < dado2) // tem que comparar com sinal >:
-            begin //dado 1 < dado2
-               resultado = 1;
-              zero = 0;
+            if (Dado1 < Dado2) // tem que comparar com sinal >:
+            begin //Dado 1 < Dado2
+                SaidaULA = 1;
+                Zero = 0;
             end
-          else 
+            else
             begin
-              resultado = 0;
-              zero = 0;
+                SaidaULA = 0;
+                Zero = 0;
             end
         end
-	2'b11:begin  //impossivel
-	resultado = 8'b00000000;
-	zero = 1'b0;
-	end
-      endcase
+        
+        2'b11:begin  //impossivel
+            SaidaULA = 8'b00000000;
+            Zero = 1'b0;
+        end
+        endcase
     end
 endmodule
