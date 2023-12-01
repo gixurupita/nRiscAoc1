@@ -1,4 +1,4 @@
-module MemoriaInstrucoes (Endereco, Instrucao, Clock);
+module MemoriaInstrucoes (Clock, Endereco, Instrucao);
     input wire Clock;   //Sinal de Clock
     input wire [7:0] Endereco;
     output reg [7:0] Instrucao; //Instrução de saída

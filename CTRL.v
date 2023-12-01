@@ -1,4 +1,4 @@
-module CTRL(OPcode, Clock,
+module CTRL(Clock, OPcode,
 MemToReg, 
 EscMem, 
 LerMem,
@@ -75,7 +75,7 @@ moveReg = 1'bz;
 RegDest = 1'bz;
 end
 
-3'b100: begin //beq
+3'b100: begin //jump
 MemToReg = 1'bz;
 EscMem = 1'b0;
 LerMem = 1'b0;

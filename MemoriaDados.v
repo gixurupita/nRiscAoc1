@@ -1,4 +1,4 @@
-module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, Clock);
+module MemoriaDados (Clock, Endereco, DadoEscrito, DadoLido, EscMem, LerMem);
     input wire Clock, EscMem, LerMem;   //Sinais de Controle e Clock
     input wire [7:0] Endereco, DadoEscrito;
     output reg [7:0] DadoLido;   //Dado lido da Memória
