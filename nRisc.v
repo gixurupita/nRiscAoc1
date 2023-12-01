@@ -21,27 +21,30 @@ module nRisc(Clock, SaidaPC, Instrucao, EndMemDados, DadoEscritoMem, DadoLidoMem
     // Instância do módulo Program Counter
     ProgramCouter PC(.Clock(Clock), .EscPC(EscPC), .EntradaPC(SaidaULA_Soma), .SaidaPC(SaidaPC));
 
-    // A instrução é buscada na memória pelo endereço em SaidaPC e retorna em Instrucao[7:0]
+    // A instrução é buscada na memória pelo endereço dado por SaidaPC e retorna em Instrucao[7:0]
 
     // Conectando o fio de parte da instrução até o unidade de concatenação
-    wire Entrada1_Mux2Para1_1;
-    ConcatenaBit ConcatenaBit(Instrucao[4:3], Entrada1_Mux2Para1_1);
+    wire [2:0] RegLido1;
+    ConcatenaBit ConcatenaBit(Instrucao[4:3], RegLido1);
 
     // Conectando o fio concatenado até a porta 1 do mux RegDest
-    wire SaidaMux2Para1_1;
-    Mux2Para1 Mux2Para1_1(Entrada1_Mux2Para1_1, 3'b001, RegDest, SaidaMux2Para1_1); //porta 2 = 1 (r0)
+    wire [2:0] RegEscrito;
+    Mux2Para1 Mux2Para1_RegDest(RegLido1, 3'b001, RegDest, RegEscrito); //porta 2 = 1 (r0)
 
-    
+    // Conectando a saída do mux MemToReg à porta 1 do mux MoveReg
+    wire [2:0] SaidaMuxMemToReg;
+    wire [7:0] DadoEscrito;
+    Mux2Para1 Mux2Para1_MoveReg(SaidaMuxMemToReg, DadoLido2,MoveReg, DadoEscrito); //porta 2 = 1 (r0)
 
 
     // Fios associados ao Banco de Registradores
-    reg [3:0] RegLido1, RegLido2, RegEscrito;
-    reg [7:0] DadoEscrito, DadoLido1, DadoLido2, Dadoa0;
+    reg [2:0] RegLido2;
+    wire [7:0] DadoLido1, DadoLido2, Dadoa0;
     reg Clock, EscReg;
     // Instância do módulo BancoRegistradores
     BancoRegistradores BancoInst(
         .RegLido1(RegLido1),
-        .RegLido2(RegLido2),
+        .RegLido2(Instrucao[2:0]),
         .RegEscrito(RegEscrito),
         .DadoEscrito(DadoEscrito),
         .DadoLido1(DadoLido1),
