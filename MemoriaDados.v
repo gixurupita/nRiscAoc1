@@ -3,6 +3,7 @@ module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, Clock);
     input wire [7:0] Endereco, DadoEscrito;
     output reg [7:0] DadoLido;   //Dado lido da Memória
     
+<<<<<<< HEAD
     reg [7:0] MemDados [0:255];    //Declaração o reg da Memória
 
     integer i;
@@ -17,16 +18,27 @@ module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, Clock);
         //  ===== FIM: Prints de teste =====
     end
 
+=======
+    reg [7:0] Dados [0:255];
+>>>>>>> testeGiovanni
 
     always @(posedge Clock)
     begin
         //Escrita na borda de subida dependendo do sinal de controle
+<<<<<<< HEAD
         if (escMem) MemDados[endereco] = dadoEscrito;
+=======
+        if (EscMem) Dados[Endereco] = DadoEscrito;
+>>>>>>> testeGiovanni
     end
 
     always @(negedge Clock)
     begin
         //Leitura na borda de descida dependendo do sinal de controle
+<<<<<<< HEAD
         if (lerMem) dadoLido = MemDados[endereco];
+=======
+        if (LerMem) DadoLido = Dados[Endereco];
+>>>>>>> testeGiovanni
     end
 endmodule

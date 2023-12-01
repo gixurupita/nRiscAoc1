@@ -1,0 +1,390 @@
+module BancoRegistradores(RegLido1, RegLido2, RegEscrito, DadoEscrito, EscReg, DadoLido1, DadoLido2, Dadoa0, Clock);
+    input [3:0] RegLido1, RegLido2, RegEscrito;    //Número dos registradores
+    input [7:0] DadoEscrito;   //Valor de 8 bits a ser escrito
+    input Clock, EscReg;    //Sinal de controle e Clock
+    output [7:0] DadoLido1, DadoLido2;    //Valores lidos dos Registradores
+
+    reg [7:0] REG [7:0];    //8 Registradores, cada um de 8 bits
+
+    //Saída dos registradores
+    assign DadoLido1 = REG[RegLido1];
+    assign DadoLido2 = REG[RegLido2];
+    assign Dadoa0 = REG[7];     //Saída dedicada do registrador a0
+
+    always @(posedge Clock)
+    begin  //Grava o dado no banco caso o sinal EscReg for 1
+        if (EscReg) REG[RegEscrito] <= DadoEscrito;
+    end
+endmodule
+
+
+module CTRL(OPcode, Clock,
+MemToReg, 
+EscMem, 
+LerMem,
+Branch,
+ULAOp,
+ULAFonte,
+EscReg,
+Jump,
+EscPc,
+moveReg,
+RegDest);
+
+input wire [2:0] OPcode;
+input Clock;
+output reg MemToReg, EscMem, LerMem, Branch, ULAFonte, EscReg, Jump, EscPc, moveReg, RegDest;
+output reg[1:0] ULAOp;
+
+always @ (posedge Clock) begin
+casez(OPcode)
+
+3'b000: begin //add
+MemToReg = 1'b0;
+EscMem = 1'b0;
+LerMem = 1'b0;
+Branch = 1'b0;
+ULAOp = 2'b00;
+ULAFonte = 1'b1;
+EscReg = 1'b1;
+Jump = 1'b0;
+EscPc = 1'b1;
+moveReg = 1'b0;
+RegDest = 1'b1;
+end
+
+3'b001: begin //move
+MemToReg = 1'bz;
+EscMem = 1'b0;
+LerMem = 1'b0;
+Branch = 1'b0;
+ULAOp = 2'bzz;
+ULAFonte = 1'bz;
+EscReg = 1'b1;
+Jump = 1'b0;
+EscPc = 1'b1;
+moveReg = 1'b1;
+RegDest = 1'b0;
+end
+
+3'b010: begin //slt
+MemToReg = 1'b0;
+EscMem = 1'b0;
+LerMem = 1'b0;
+Branch = 1'b0;
+ULAOp = 2'b10;
+ULAFonte = 1'b0;
+EscReg = 1'b1;
+Jump = 1'b0;
+EscPc = 1'b1;
+moveReg = 1'b0;
+RegDest = 1'b1;
+end
+
+3'b011: begin //beq
+MemToReg = 1'bz;
+EscMem = 1'b0;
+LerMem = 1'b0;
+Branch = 1'b1;
+ULAOp = 2'b01;
+ULAFonte = 1'b0;
+EscReg = 1'b0;
+Jump = 1'b0;
+EscPc = 1'b1;
+moveReg = 1'bz;
+RegDest = 1'bz;
+end
+
+3'b100: begin //beq
+MemToReg = 1'bz;
+EscMem = 1'b0;
+LerMem = 1'b0;
+Branch = 1'bz;
+ULAOp = 2'bzz;
+ULAFonte = 1'bz;
+EscReg = 1'b0;
+Jump = 1'b1;
+EscPc = 1'b1;
+moveReg = 1'bz;
+RegDest = 1'bz;
+end
+
+3'b101: begin //sw
+MemToReg = 1'b1;
+EscMem = 1'b1;
+LerMem = 1'b0;
+Branch = 1'b0;
+ULAOp = 2'bzz;
+ULAFonte = 1'bz;
+EscReg = 1'b0;
+Jump = 1'b0;
+EscPc = 1'b1;
+moveReg = 1'bz;
+RegDest = 1'bz;
+end
+
+3'b110: begin //lw
+MemToReg = 1'b1;
+EscMem = 1'b0;
+LerMem = 1'b1;
+Branch = 1'b0;
+ULAOp = 2'bzz;
+ULAFonte = 1'bz;
+EscReg = 1'b1;
+Jump = 1'b0;
+EscPc = 1'b1;
+moveReg = 1'b0;
+RegDest = 1'b0;
+end
+
+3'b111: begin //halt
+MemToReg = 1'bz;
+EscMem = 1'b0;
+LerMem = 1'b0;
+Branch = 1'bz;
+ULAOp = 2'bzz;
+ULAFonte = 1'bz;
+EscReg = 1'b0;
+Jump = 1'bz;
+EscPc = 1'b0;
+moveReg = 1'bz;
+RegDest = 1'bz;
+end
+
+endcase
+end
+endmodule
+
+module Ext(
+   input signed [2:0] entrada,
+   output reg [7:0] saida 
+);
+
+   always @(entrada) begin
+      if (entrada[2] == 1) // Número negativo
+         saida = {5'b11111, entrada};
+      else // Número positivo
+         saida = {5'b00000, entrada};
+   end
+
+//iverilog -o Ext.vvp Ext.v
+
+endmodule
+
+module Ext(
+   input signed [2:0] entrada,
+   output reg [7:0] saida 
+);
+
+   always @(entrada) begin
+      if (entrada[2] == 1) // Número negativo
+         saida = {5'b11111, entrada};
+      else // Número positivo
+         saida = {5'b00000, entrada};
+   end
+
+//iverilog -o Ext.vvp Ext.v
+
+endmodule
+
+module Incrementa(
+   input [7:0] num1,
+   input signed [7:0] num2,
+   output reg [7:0] resultado
+);
+    always@(*) 
+        resultado = num1 + num2;
+
+endmodule
+
+module Teste_Mux2Para1 ();
+    reg[7:0] entrada1, entrada2;
+    reg selecao;
+    wire[7:0] saida;
+
+    //Instanciando o módulo do Mux
+    Mux2Para1 Mux_Inst(
+        .porta1(entrada1),
+        .porta2(entrada2),
+        .selecao(selecao),
+        .saida(saida)
+    );
+
+    initial begin
+        //Valores hipotéticos para as entradas
+        entrada1 = 6;
+        entrada2 = 11;
+
+        $display("TESTE: Alteração do sinal de selecao do Mux2Para1:");
+        $display("Tempo   selecao   entrada1   entrada2    saida");
+        $monitor("  %0d        %d       %d         %d       %d", $time, selecao, entrada1, entrada2, saida);
+        //Alternando o sinal de seleção
+        #1 selecao = 1'b0;
+        #1 selecao = 1'b1;
+    end
+endmodule
+
+module Mux4Para1 (porta1, porta2, porta3, porta4, selecao, saida);
+    input wire [7:0] porta1, porta2, porta3, porta4; 
+    input wire [1:0] selecao;
+    output reg [7:0] saida;
+    
+    always @(*) begin
+        case (selecao)
+            2'b00: saida = porta1;
+            2'b01: saida = porta2;
+            2'b10: saida = porta3;
+            2'b11: saida = porta4;
+        endcase
+    end
+endmodule
+
+module PortaAnd(
+    input wire Zero,
+    input wire Branch,
+    output reg resultado);
+
+    always @(*) 
+    begin
+        resultado = Zero && Branch;
+    end
+endmodule
+
+module ProgramCouter (Endereco, EscPC, Saida, Clock);
+    input wire EscPC, Clock;
+    input wire [7:0] Endereco;
+    output reg [7:0] Saida;
+    
+    reg[7:0] MemoriaPC;
+
+    always @(posedge Clock)
+    begin
+        //Grava o endereço da entrada na subida do Clock
+        if(EscPC) MemoriaPC = Endereco;
+    end
+    always @(negedge Clock)
+    begin
+        //Atribui o endereço à saída na descida do Clock
+        Saida = MemoriaPC;
+    end
+endmodule
+
+
+
+
+
+
+
+
+/////////HOOOOOOOOOOORRRRRRRRRRRAAAAAAAAAAA
+
+
+
+`include "BancoRegistradores.v"
+`include "CTRL.v"
+`include "Ext.v"
+`include "Incrementa.v"
+`include "Mux2Para1.v"
+`include "Mux4Para1.v"
+`include "PortaAnd.v"
+`include "ProgramCouter.v"
+`include "ULA.v"
+`include "Ext.v"
+`include "Mux2Para1.v"
+
+
+module nRisc;
+    reg [3:0] RegLido1, RegLido2, RegEscrito;
+    reg [7:0] DadoEscrito, DadoLido1, DadoLido2, Dadoa0;
+    reg Clock, EscReg;
+    
+    // Instância do módulo BancoRegistradores
+    BancoRegistradores BancoInst(
+        .RegLido1(RegLido1),
+        .RegLido2(RegLido2),
+        .RegEscrito(RegEscrito),
+        .DadoEscrito(DadoEscrito),
+        .DadoLido1(DadoLido1),
+        .DadoLido2(DadoLido2),
+        .Dadoa0(Dadoa0),
+        .Clock(Clock),
+        .EscReg(EscReg)
+    );
+
+    // Instância do módulo CTRL
+    CTRL CtrlInst(
+        .OPcode(OPcode),
+        .Clock(Clock),
+        .MemToReg(MemToReg),
+        .EscMem(EscMem),
+        .LerMem(LerMem),
+        .Branch(Branch),
+        .ULAOp(ULAOp),
+        .ULAFonte(ULAFonte),
+        .EscReg(EscReg),
+        .Jump(Jump),
+        .EscPc(EscPc),
+        .moveReg(moveReg),
+        .RegDest(RegDest)
+    );
+
+    // Instância do módulo Ext
+    Ext ExtInst(
+        .entrada(entrada),
+        .saida(saida)
+    );
+
+    // Instância do módulo Incrementa
+    Incrementa IncInst(
+        .num1(num1),
+        .num2(num2),
+        .resultado(resultado)
+    );
+
+    // Instância do módulo Teste_Mux2Para1
+    Mux2Para1 Mux2_1Inst(
+        .porta1Mux2_1(porta1), 
+        .porta2Mux2_1(porta2),
+        .selecaoMux2_1(selecao),
+        .saidaMux2_1(saida)
+    );
+
+    // Instância do módulo Mux4Para1
+    Mux4Para1 Mux4_1Inst(
+        .porta1Mux4_1(porta1),
+        .porta2Mux4_1(porta2),
+        .porta3Mux4_1(porta3),
+        .porta4Mux4_1(porta4),
+        .selecaoMux4_1(selecao),
+        .saidaMux4_1(saida)
+    );
+
+    // Instância do módulo PortaAnd
+    PortaAnd AndInst(
+        .Zero(Zero),
+        .Branch(Branch),
+        .resultado(resultado)
+    );
+
+    // Instância do módulo ProgramCouter
+    ProgramCouter PCInst(
+        .Endereco(Endereco),
+        .EscPC(EscPC),
+        .Saida(Saida),
+        .Clock(Clock)
+    );
+    
+    // Instância do módulo ULA
+    ULA ULAInst(
+        .ULAOp(ULAOp),
+        .dado1(DadoLido1),  // Alterei para DadoLido1 para conectar com os registradores
+        .dado2(DadoLido2),  // Alterei para DadoLido2 para conectar com os registradores
+        .zero(zero),
+        .resultado(resultadoULA)
+    );
+
+    initial begin
+        $display ("bom dia");
+    end
+
+endmodule
