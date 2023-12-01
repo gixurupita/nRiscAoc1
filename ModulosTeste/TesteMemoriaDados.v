@@ -10,11 +10,11 @@ module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, Clock);
         //Lê o arquivo e grava as instruções na memória
         $readmemb("dados.dat", MemDados, 0, 255);
 
-        //  ===== INÍCIO: Prints de teste =====
-        //$display("Valores binarios lidos e gravados na Memória de Dados:");
-        //for(i = 0; i < 15; i =  i + 1)
-        //    $display("memDados[%0d] %d", i, MemDados[i]);
-        //  ===== FIM: Prints de teste =====
+          ===== INÍCIO: Prints de teste =====
+        $display("Valores binarios lidos e gravados na Memória de Dados:");
+        for(i = 0; i < 15; i =  i + 1)
+            $display("memDados[%0d] %d", i, MemDados[i]);
+          ===== FIM: Prints de teste =====
     end
 
 

@@ -68,7 +68,7 @@ module nRisc(Clock, SaidaPC, Instrucao, EndMemDados, DadoEscritoMem, DadoLidoMem
     // Fios associados ao Banco de Registradores
     wire [7:0] DadoLido1, DadoLido2, Dadoa0;
     // Instância do módulo BancoRegistradores
-    BancoRegistradores BancoInst(
+    BancoRegistradores BancoReg(
         .RegLido1(RegLido1),
         .RegLido2(Instrucao[2:0]),
         .RegEscrito(RegEscrito),

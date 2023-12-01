@@ -12,7 +12,7 @@ module Simulacao_nRisc;
     wire EscReg, EscMem, LerMem;    //Sinais leitura e escrita
 
     // Instância do nRisc
-    nRisc nrisc(.Clock(Clock), .SaidaPC(SaidaPC), .Instrucao(Instrucao), .EndMemDados(EndMemDados), .DadoEscritoMem(DadoEscritoMem), .DadoLidoMem(DadoLidoMem), .out_EscReg(EscReg), .out_EscMem(EscMem), .out_LerMem(LerMem));
+    nRisc nRisc(.Clock(Clock), .SaidaPC(SaidaPC), .Instrucao(Instrucao), .EndMemDados(EndMemDados), .DadoEscritoMem(DadoEscritoMem), .DadoLidoMem(DadoLidoMem), .out_EscReg(EscReg), .out_EscMem(EscMem), .out_LerMem(LerMem));
 
     // Instância da Memória de Instruções
     MemoriaInstrucoes MemoriaInstrucoes(.Clock(Clock), .Endereco(SaidaPC), .Instrucao(Instrucao));
@@ -28,7 +28,7 @@ module Simulacao_nRisc;
 
     initial begin
         forever begin
-            $display();
+            $display("time: %0d RegLido1: %d RegLido2: %d SaidaULA: %d", $time, nRisc.BancoReg.DadoLido1, nRisc.BancoReg.DadoLido2, nRisc.ULA.SaidaULA);
         end
     end 
 
