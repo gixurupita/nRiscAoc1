@@ -1,3 +1,3 @@
-module Processador_nRisc (clock, reset, saidaPC, camposInst, endMemoria, dadoMemoria);
+module Processador_nRisc (Clock, Reset, RaidaPC, CamposInst, EndMemoria, DadoMemoria);
     input wire
 endmodule

@@ -1,7 +1,7 @@
-module MemoriaInstrucoes (endereco, instrucao, clock);
-    input wire clock;   //Sinal de clock
-    input wire [7:0] endereco;
-    output reg [7:0] instrucao; //Instrução de saída
+module MemoriaInstrucoes (Endereco, Instrucao, Clock);
+    input wire Clock;   //Sinal de Clock
+    input wire [7:0] Endereco;
+    output reg [7:0] Instrucao; //Instrução de saída
 
     reg [7:0] memInstrucoes [0:255];    //Declaração o reg da Memória
 
@@ -17,10 +17,10 @@ module MemoriaInstrucoes (endereco, instrucao, clock);
         //  ===== FIM: Prints de teste =====
     end
 
-    always @(negedge clock)
+    always @(negedge Clock)
     begin
         //Atribui a respectiva instrução à saída
-        instrucao = memInstrucoes[endereco];  
+        Instrucao = memInstrucoes[Endereco];  
     end
 endmodule
 
