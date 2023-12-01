@@ -1,7 +1,7 @@
-module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, clock);
-    input wire clock, EscMem, LerMem;   //Sinais de Controle e Clock
-    input wire [7:0] Endereco, DadoEscrito;
-    output reg [7:0] DadoLido;   //Dado lido da Memória
+module MemoriaDados (endereco, dadoEscrito, dadoLido, escMem, lerMem, clock);
+    input wire clock, escMem, lerMem;   //Sinais de Controle e Clock
+    input wire [7:0] endereco, dadoEscrito;
+    output reg [7:0] dadoLido;   //Dado lido da Memória
     
     reg [7:0] MemDados [0:255];    //Declaração o reg da Memória
 
@@ -21,12 +21,12 @@ module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, clock);
     always @(posedge clock)
     begin
         //Escrita na borda de subida dependendo do sinal de controle
-        if (EscMem) MemDados[Endereco] = DadoEscrito;
+        if (escMem) MemDados[endereco] = dadoEscrito;
     end
 
     always @(negedge clock)
     begin
         //Leitura na borda de descida dependendo do sinal de controle
-        if (LerMem) DadoLido = MemDados[Endereco];
+        if (lerMem) dadoLido = MemDados[endereco];
     end
 endmodule

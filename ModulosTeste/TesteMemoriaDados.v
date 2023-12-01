@@ -1,5 +1,5 @@
-module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, clock);
-    input wire clock, EscMem, LerMem;   //Sinais de Controle e Clock
+module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, Clock);
+    input wire Clock, EscMem, LerMem;   //Sinais de Controle e Clock
     input wire [7:0] Endereco, DadoEscrito;
     output reg [7:0] DadoLido;   //Dado lido da Memória
     
@@ -18,13 +18,13 @@ module MemoriaDados (Endereco, DadoEscrito, DadoLido, EscMem, LerMem, clock);
     end
 
 
-    always @(posedge clock)
+    always @(posedge Clock)
     begin
         //Escrita na borda de subida dependendo do sinal de controle
         if (EscMem) MemDados[Endereco] = DadoEscrito;
     end
 
-    always @(negedge clock)
+    always @(negedge Clock)
     begin
         //Leitura na borda de descida dependendo do sinal de controle
         if (LerMem) DadoLido = MemDados[Endereco];
@@ -34,32 +34,32 @@ endmodule
 
 
 module Teste_MemoriaDados  ();
-    reg clock, EscMem, LerMem;
+    reg Clock, EscMem, LerMem;
     reg [7:0]Endereco, DadoAEscrever;
     wire [7:0] DadoLido;
 
     //Instanciando o módulo da Memória de Dados
-    MemoriaDados Memoria (Endereco, DadoAEscrever, DadoLido, EscMem, LerMem, clock);
+    MemoriaDados Memoria (Endereco, DadoAEscrever, DadoLido, EscMem, LerMem, Clock);
     initial
     begin
-        clock = 1;
+        Clock = 1;
         EscMem = 0;
         LerMem = 1;
         Endereco = 8;
         DadoAEscrever = 15;   //Valor hipotético a ser escrito na Memória
         $display("TESTE: Escrita e Leitura na Memória de Dados");
         $display("Tempo  Clock  EscMem  LerMem  Endereco  DadoAEscrever  DadoLido");
-        $monitor(" %0d       %d       %d      %d       %d         %d         %d", $time, clock, EscMem, LerMem, Endereco, DadoAEscrever, DadoLido);
+        $monitor(" %0d       %d       %d      %d       %d         %d         %d", $time, Clock, EscMem, LerMem, Endereco, DadoAEscrever, DadoLido);
         #1; begin
-            clock = 0;
+            Clock = 0;
         end
         #1; begin
-            clock = 1;
+            Clock = 1;
             EscMem = 1;
             LerMem = 0;
         end
         #1; begin
-            clock = 0;
+            Clock = 0;
             LerMem = 1;
             EscMem = 0;
         end

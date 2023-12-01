@@ -1,26 +1,26 @@
-module MemoriaInstrucoes (Endereco, Instrucao, clock);
+module MemoriaInstrucoes (endereco, instrucao, clock);
     input wire clock;   //Sinal de clock
-    input wire [7:0] Endereco;
-    output reg [7:0] Instrucao; //Instrução de saída
+    input wire [7:0] endereco;
+    output reg [7:0] instrucao; //Instrução de saída
 
-    reg [7:0] MemInstrucoes [0:255];    //Declaração o reg da Memória
+    reg [7:0] memInstrucoes [0:255];    //Declaração o reg da Memória
 
     integer i;
     initial begin
         //Lê o arquivo e grava as instruções na memória
-        $readmemb("instrucoes.dat", MemInstrucoes, 0, 255);
+        $readmemb("instrucoes.dat", memInstrucoes, 0, 255);
 
         //  ===== INÍCIO: Prints de teste =====
         $display("Valores binarios lidos e gravados na Memória de Instruções:");
         for(i = 0; i < 71; i =  i + 1)
-            $display("memInst[%0d] %b", i, MemInstrucoes[i]);
+            $display("memInst[%0d] %b", i, memInstrucoes[i]);
         //  ===== FIM: Prints de teste =====
     end
 
     always @(negedge clock)
     begin
         //Atribui a respectiva instrução à saída
-        Instrucao = MemInstrucoes[Endereco];  
+        instrucao = memInstrucoes[endereco];  
     end
 endmodule
 
