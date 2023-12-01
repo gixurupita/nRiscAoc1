@@ -11,15 +11,15 @@
 `include "ULA.v"
 
 
-module nRisc(Clock, SaidaPC, Instrucao, EndMemDados, DadoEscritoMem, DadoLidoMem);
+module nRisc(Clock, SaidaPC, Instrucao, EndMemDados, DadoEscritoMem, DadoLidoMem, out_EscReg, out_EscMem, out_LerMem);
     // Associação de portas da entrada e saída do nRisc
     input wire Clock;
     input wire[7:0] Instrucao, DadoLidoMem;
     output reg[7:0] SaidaPC, EndMemDados, DadoEscritoMem;
+    output reg out_EscReg, out_EscMem, out_LerMem;
 
     // Wires associados às saídas do nRisc
     wire[7:0] w_SaidaPC, w_EndMemDados, w_DadoEscritoMem;
-
 
     // Instância do módulo Program Counter
     ProgramCounter PC(.Clock(Clock), .EscPC(EscPC), .EntradaPC(SaidaMux4), .SaidaPC(w_SaidaPC));
@@ -106,7 +106,14 @@ module nRisc(Clock, SaidaPC, Instrucao, EndMemDados, DadoEscritoMem, DadoLidoMem
     
 
     initial begin
+        //Atribuição dos wires às variáveis de saída
         SaidaPC = w_SaidaPC;
+        EndMemDados = w_EndMemDados;
+        DadoEscritoMem = w_DadoEscritoMem;
+        out_EscMem = EscMem;
+        out_LerMem = LerMem;
+        out_EscReg = EscReg;
+
         $display ("bom dia");
     end
 
