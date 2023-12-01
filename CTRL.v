@@ -8,7 +8,7 @@ ULAFonte,
 EscReg,
 Jump,
 EscPc,
-moveReg,
+MoveReg,
 RegDest);
 
 input wire [2:0] OPcode;
