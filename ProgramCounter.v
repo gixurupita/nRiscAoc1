@@ -1,5 +1,5 @@
-module ProgramCouter (Clock, EscPC, EntradaPC, SaidaPC);
-    input wire Clock, EscPc;
+module ProgramCounter (Clock, EscPC, EntradaPC, SaidaPC);
+    input wire Clock, EscPC;
     input wire [7:0] EntradaPC;
     output reg [7:0] SaidaPC;
     

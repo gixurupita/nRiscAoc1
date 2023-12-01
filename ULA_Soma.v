@@ -1,9 +1,9 @@
 module ULA_Soma(
-   input [7:0] Num1,
-   input signed [7:0] Num2,
-   output reg [7:0] SaidaIncrementa
+   input [7:0] Operando1,
+   input signed [7:0] Operando2,
+   output reg [7:0] SaidaSoma
 );
     always@(*) 
-        SaidaIncrementa = Num1 + Num2;
+        SaidaSoma = Operando1 + Operando2;
 
 endmodule

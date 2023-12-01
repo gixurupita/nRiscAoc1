@@ -13,7 +13,7 @@ RegDest);
 
 input wire [2:0] OPcode;
 input Clock;
-output reg MemToReg, EscMem, LerMem, Branch, ULAFonte, EscReg, Jump, EscPc, moveReg, RegDest;
+output reg MemToReg, EscMem, LerMem, Branch, ULAFonte, EscReg, Jump, EscPc, MoveReg, RegDest;
 output reg[1:0] ULAOp;
 
 always @ (posedge Clock) begin
@@ -29,7 +29,7 @@ ULAFonte = 1'b1;
 EscReg = 1'b1;
 Jump = 1'b0;
 EscPc = 1'b1;
-moveReg = 1'b0;
+MoveReg = 1'b0;
 RegDest = 1'b1;
 end
 
@@ -43,7 +43,7 @@ ULAFonte = 1'bz;
 EscReg = 1'b1;
 Jump = 1'b0;
 EscPc = 1'b1;
-moveReg = 1'b1;
+MoveReg = 1'b1;
 RegDest = 1'b0;
 end
 
@@ -57,7 +57,7 @@ ULAFonte = 1'b0;
 EscReg = 1'b1;
 Jump = 1'b0;
 EscPc = 1'b1;
-moveReg = 1'b0;
+MoveReg = 1'b0;
 RegDest = 1'b1;
 end
 
@@ -71,7 +71,7 @@ ULAFonte = 1'b0;
 EscReg = 1'b0;
 Jump = 1'b0;
 EscPc = 1'b1;
-moveReg = 1'bz;
+MoveReg = 1'bz;
 RegDest = 1'bz;
 end
 
@@ -85,7 +85,7 @@ ULAFonte = 1'bz;
 EscReg = 1'b0;
 Jump = 1'b1;
 EscPc = 1'b1;
-moveReg = 1'bz;
+MoveReg = 1'bz;
 RegDest = 1'bz;
 end
 
@@ -99,7 +99,7 @@ ULAFonte = 1'bz;
 EscReg = 1'b0;
 Jump = 1'b0;
 EscPc = 1'b1;
-moveReg = 1'bz;
+MoveReg = 1'bz;
 RegDest = 1'bz;
 end
 
@@ -113,7 +113,7 @@ ULAFonte = 1'bz;
 EscReg = 1'b1;
 Jump = 1'b0;
 EscPc = 1'b1;
-moveReg = 1'b0;
+MoveReg = 1'b0;
 RegDest = 1'b0;
 end
 
@@ -127,7 +127,7 @@ ULAFonte = 1'bz;
 EscReg = 1'b0;
 Jump = 1'bz;
 EscPc = 1'b0;
-moveReg = 1'bz;
+MoveReg = 1'bz;
 RegDest = 1'bz;
 end
 
